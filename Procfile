@@ -1,2 +1,1 @@
-web: echo "Anything"
-service: npm start
+worker: node index.js
