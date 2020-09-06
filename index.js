@@ -8,8 +8,6 @@ const bot = new Discord.Client();
 
 let scrimPlayerListObject = [];
 
-console.log(process.env.DISCORD_TOKEN);
-
 bot.on('message', (message) => {
     let parts = message.content.split(' ');
 
