@@ -50,26 +50,26 @@ bot.on('message', (message) => {
     }
     else if (parts[0] === '!siginManual') {
         if (message.member.hasPermission("BAN_MEMBERS")) {
-                if(parts.length !== 4) {
-                    message.reply("Your message was incorrectly formatted.\n`!signin {name} {first_choice_role,second_choice_role,...} {mmr}`");
-                    return;
-                }
-                let roles = parts[2].toString();
-                roles = roles.split(',');
-                let mmr = parts[3];
-                mmr = parseInt(mmr, 10);
-                let rolesValid = rolesValidCheck(roles, message);
-                let mmrValid = mmrValidCheck(mmr, message);
-                let username = parts[1];
-                let isSignedUp = isSignedUpCheck(username, message);
-                if (rolesValid && mmrValid && isSignedUp) {
-                    message.member.roles.add(scrimPlayer);
-                    scrimPlayerListObject.push({Name: username, Roles: roles, MMR: mmr});
-                    let scrimPlayerList = 'Scrim Player List: \n';
-                    scrimPlayerListObject.forEach( e =>
-                        scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
-                    );
-                    message.reply(scrimPlayerList);
+            if(parts.length !== 4) {
+                message.reply("Your message was incorrectly formatted.\n`!signin {name} {first_choice_role,second_choice_role,...} {mmr}`");
+                return;
+            }
+            let roles = parts[2].toString();
+            roles = roles.split(',');
+            let mmr = parts[3];
+            mmr = parseInt(mmr, 10);
+            let rolesValid = rolesValidCheck(roles, message);
+            let mmrValid = mmrValidCheck(mmr, message);
+            let username = parts[1];
+            let isSignedUp = isSignedUpCheck(username, message);
+            if (rolesValid && mmrValid && isSignedUp) {
+                message.member.roles.add(scrimPlayer);
+                scrimPlayerListObject.push({Name: username, Roles: roles, MMR: mmr});
+                let scrimPlayerList = 'Scrim Player List: \n';
+                scrimPlayerListObject.forEach( e =>
+                    scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
+                );
+                message.reply(scrimPlayerList);
             }
 		} else {
             message.reply(`You do not have permission to use this command.`);
