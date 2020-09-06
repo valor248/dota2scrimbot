@@ -48,10 +48,10 @@ bot.on('message', (message) => {
             message.reply(`You do not have permission to use this command.`);
         }
     }
-    else if (parts[0] === '!siginManual') {
+    else if (parts[0] === '!signinManual') {
         if (message.member.hasPermission("BAN_MEMBERS")) {
             if(parts.length !== 4) {
-                message.reply("Your message was incorrectly formatted.\n`!signin {name} {first_choice_role,second_choice_role,...} {mmr}`");
+                message.reply("Your message was incorrectly formatted.\n`!signinManual {name} {first_choice_role,second_choice_role,...} {mmr}`");
                 return;
             }
             let roles = parts[2].toString();
