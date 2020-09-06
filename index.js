@@ -13,16 +13,20 @@ bot.on('message', (message) => {
 
 	// !signin Command. Used to push a user's name, roles, and MMR to scrimPlayerList
 	// Can be used by any user with access to allowed channels.
-	if (parts[0] === '!signin' && typeof parts[1] !== 'undefined'){
+	if (parts[0] === '!signin') {
+		if(parts.length !== 4) {
+			message.reply("Your message was incorrectly formatted.\n`!signin {name} {mmr} {first_choice_role,second_choice_role,...}`");
+			return;
+		}
 		let roles = parts[1].toString();
 		roles = roles.split(',');
 		let mmr = parts[2];
 		mmr = parseInt(mmr, 10);
-		let rolesValid = rolesValidCheck(roles,message);
+		let rolesValid = rolesValidCheck(roles, message);
 		let mmrValid = mmrValidCheck(mmr, message);
 		let username = message.member.user.tag;
 		let isSignedUp = isSignedUpCheck(username, message);
-		if (rolesValid && mmrValid && isSignedUp){
+		if (rolesValid && mmrValid && isSignedUp) {
 			message.member.roles.add(scrimPlayer);
 			scrimPlayerListObject.push({Name: username, Roles: roles, MMR: mmr});
 			let scrimPlayerList = 'Scrim Player List: \n';
@@ -44,10 +48,10 @@ bot.on('message', (message) => {
 	// !listScrimPlayers Command. Used to make the Scrim Bot list players in discord chat.
 	// Can be used by any user with access to allowed channels.
 	else if (parts[0] === '!listScrimPlayers'){
-		let scrimPlayerList = 'Scrim Player List: \n'
+		let scrimPlayerList = 'Scrim Player List: \n';
 		scrimPlayerListObject.forEach( e =>
 			scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
-		)
+		);
 		//scrimPlayerList = scrimPlayerList.concat(`${username}:\t\tRoles: ${roles}\t\tMMR: ${mmr}\n`)
 		message.reply(`${scrimPlayerList}`)
 	}
@@ -56,52 +60,48 @@ bot.on('message', (message) => {
 	else if (parts[0] === '!signout'){
 		let username = message.member.user.tag;
 		if (scrimPlayerListObject.find(x => x.Name === username)) {
-			scrimPlayerListObject = scrimPlayerListObject.filter(x => x.Name != username)
-			message.reply('You have been signed out')
-			console.log(scrimPlayerListObject)
+			scrimPlayerListObject = scrimPlayerListObject.filter(x => x.Name != username);
+			message.reply('You have been signed out');
+			console.log(scrimPlayerListObject);
 		} else {
-			message.reply('You were not signed in.')
+			message.reply('You were not signed in.');
 		}
 	}
-}
-,);
+});
 //Bot Login, to replace login key visit discordapp.com developer page.
 bot.login(process.env.DISCORD_TOKEN);
 
 
-function rolesValidCheck(rolesArray,message) {
+function rolesValidCheck(rolesArray, message) {
 	if (rolesArray.length <= 1) {
-		message.reply('Make sure you select more than one role. (e.g. 1,2)')
-		return false
+		message.reply('Make sure you select more than one role. (e.g. 1,2)');
+		return false;
 	}
-	if (!rolesArray.every(function (e) {
-		return e >= 1 && e <= 5;
-	})) {
-		message.reply('Make sure you input valid roles (1,2,3,4,5)')
-		return false
+	if (!rolesArray.every(e => e >= 1 && e <= 5)) {
+		message.reply('Make sure you input valid roles (1,2,3,4,5)');
+		return false;
 	}
-	if (new Set(rolesArray).size !== rolesArray.length
-	) {
-		message.reply('Make sure you enter no duplicate roles')
-		return false
+	if (new Set(rolesArray).size !== rolesArray.length) {
+		message.reply('Make sure you enter no duplicate roles');
+		return false;
 	}
-	return true
+	return true;
 }
 
 function mmrValidCheck(mmrNumber, message) {
 	if (isNaN(mmrNumber)) {
-		message.reply('Make sure your mmr is a number. (e.g. 4000)')
-		return false
+		message.reply('Make sure your mmr is a number. (e.g. 4000)');
+		return false;
 	}
-	return true
+	return true;
 }
 
 function isSignedUpCheck(username, message) {
 	if (scrimPlayerListObject.find(x => x.Name === username)) {
-		message.reply('You are already signed in. Sign out and sign back in to change settings.')
-		return false
+		message.reply('You are already signed in. Sign out and sign back in to change settings.');
+		return false;
 	}
-	return true
+	return true;
 }
 
 /*const exampleEmbed = new Discord.MessageEmbed()
