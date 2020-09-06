@@ -45,7 +45,7 @@ bot.on('message', (message) => {
 			scrimPlayerList = `Scrim Player List: \n`;
 			message.reply(`The Scrim Player List has been cleared.`);
 		} else {
-            essage.reply(`You do not have permission to use this command.`);
+            message.reply(`You do not have permission to use this command.`);
         }
     }
     else if (parts[0] === '!siginManual') {
