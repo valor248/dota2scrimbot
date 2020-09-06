@@ -24,7 +24,8 @@ bot.on('message', (message) => {
 		mmr = parseInt(mmr, 10);
 		let rolesValid = rolesValidCheck(roles, message);
 		let mmrValid = mmrValidCheck(mmr, message);
-		let username = message.member.user.tag;
+        let username = message.member.user.tag;
+        username = username.substring(0, username.indexOf('#'));
 		let isSignedUp = isSignedUpCheck(username, message);
 		if (rolesValid && mmrValid && isSignedUp) {
 			message.member.roles.add(scrimPlayer);
