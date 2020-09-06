@@ -14,8 +14,8 @@ bot.on('message', (message) => {
 	// !signin Command. Used to push a user's name, roles, and MMR to scrimPlayerList
 	// Can be used by any user with access to allowed channels.
 	if (parts[0] === '!signin') {
-		if(parts.length !== 4) {
-			message.reply("Your message was incorrectly formatted.\n`!signin {name} {mmr} {first_choice_role,second_choice_role,...}`");
+		if(parts.length !== 3) {
+			message.reply("Your message was incorrectly formatted.\n`!signin {first_choice_role,second_choice_role,...} {mmr}`");
 			return;
 		}
 		let roles = parts[1].toString();
