@@ -13,7 +13,7 @@ bot.on('message', (message) => {
 
 	// !signin Command. Used to push a user's name, roles, and MMR to scrimPlayerList
 	// Can be used by any user with access to allowed channels.
-	if (parts[0] == '!signin' && typeof parts[1] != 'undefined'){
+	if (parts[0] === '!signin' && typeof parts[1] !== 'undefined'){
 		let roles = parts[1].toString();
 		roles = roles.split(',');
 		let mmr = parts[2];
@@ -24,17 +24,17 @@ bot.on('message', (message) => {
 		let isSignedUp = isSignedUpCheck(username, message);
 		if (rolesValid && mmrValid && isSignedUp){
 			message.member.roles.add(scrimPlayer);
-			scrimPlayerListObject.push({Name: username, Roles: roles, MMR: mmr})
-			let scrimPlayerList = 'Scrim Player List: \n'
+			scrimPlayerListObject.push({Name: username, Roles: roles, MMR: mmr});
+			let scrimPlayerList = 'Scrim Player List: \n';
 			scrimPlayerListObject.forEach( e =>
 				scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
-			)
-			message.reply(scrimPlayerList)
+			);
+			message.reply(scrimPlayerList);
 		}
 	}
 	// !clearScrimPlayerList Command. Used to set scrimPlayerList to [].
 	// Can be used only by users with the BAN_MEMBERS permission.
-	else if (parts[0] == '!clearScrimPlayerList') {
+	else if (parts[0] === '!clearScrimPlayerList') {
 
 		if (message.member.hasPermission("BAN_MEMBERS")) {
 			scrimPlayerList = `Scrim Player List: \n`;
@@ -43,7 +43,7 @@ bot.on('message', (message) => {
 	}
 	// !listScrimPlayers Command. Used to make the Scrim Bot list players in discord chat.
 	// Can be used by any user with access to allowed channels.
-	else if (parts[0] == '!listScrimPlayers'){
+	else if (parts[0] === '!listScrimPlayers'){
 		let scrimPlayerList = 'Scrim Player List: \n'
 		scrimPlayerListObject.forEach( e =>
 			scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
@@ -53,7 +53,7 @@ bot.on('message', (message) => {
 	}
 	// !signout Command. Used to make the Scrim Bot sign a player out.
 	// Can be used by any user with access to allowed channels.
-	else if (parts[0] == '!signout'){
+	else if (parts[0] === '!signout'){
 		let username = message.member.user.tag;
 		if (scrimPlayerListObject.find(x => x.Name === username)) {
 			scrimPlayerListObject = scrimPlayerListObject.filter(x => x.Name != username)
