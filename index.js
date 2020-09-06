@@ -25,7 +25,11 @@ bot.on('message', (message) => {
         if (rolesValid && mmrValid && isSignedUp){
             message.member.roles.add(scrimPlayer);
             scrimPlayerListObject.push({Name: username, Roles: roles, MMR: mmr})
-            message.reply('You have been added to the Scrim Player list.');
+            let scrimPlayerList = 'Scrim Player List: \n'
+            scrimPlayerListObject.forEach( e =>
+                scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
+            )
+            message.reply(scrimPlayerList)
         }
     }
     // !clearScrimPlayerList Command. Used to set scrimPlayerList to [].
@@ -36,7 +40,7 @@ bot.on('message', (message) => {
             scrimPlayerList = `Scrim Player List: \n`;
             message.reply(`The Scrim Player List has been cleared.`);
         }
-    } 
+    }
     // !listScrimPlayers Command. Used to make the Scrim Bot list players in discord chat.
     // Can be used by any user with access to allowed channels.
     else if (parts[0] == '!listScrimPlayers'){
@@ -63,7 +67,7 @@ bot.on('message', (message) => {
 ,);
 
 //Bot Login, to replace login key visit discordapp.com developer page.
-bot.login('NzQ5NzI2NjQ3MzAwOTE1MzQy.X0wLWQ.OIJTCsjeywi2EsiV1Ii8GPYvEZM');
+bot.login(process.env.DISCORD_TOKEN);
 
 
 
@@ -107,4 +111,4 @@ function isSignedUpCheck(username, message) {
 	.setTitle('Scrim Player List')
 	.setDescription(`${scrimPlayerList}`)
 	.setThumbnail('https://static-cdn.jtvnw.net/ttv-boxart/Dota%202-144x192.jpg')
-	.setTimestamp();*/
+    .setTimestamp();*/
