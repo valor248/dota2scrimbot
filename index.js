@@ -148,7 +148,7 @@ function prettyPrintTable(table, columnDelimeter = '   ')
 		}
 	}
 
-	return outputString;
+	return '```' + outputString + '```';
 }
 
 
