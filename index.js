@@ -1,6 +1,6 @@
 require('dotenv').config(); 
-import { Client } from "discord.js";
-const client = new Client();
+const Discord = require("discord.js");
+const client = new Discord.Client();
 let Tokens;
 try{
 	Tokens = require("./TOKENS.json");
@@ -8,7 +8,7 @@ try{
 
 const scrimPlayer = '749740102569295902';
 
-const bot = new Client();
+const bot = new Discord.Client();
 
 let scrimPlayerListObject = [];
 
