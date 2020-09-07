@@ -39,9 +39,10 @@ bot.on('message', (message) => {
 	}
 	// !clearScrimPlayerList Command. Used to set scrimPlayerList to [].
 	// Can be used only by users with the BAN_MEMBERS permission.
-	else if (parts[0] === '!clearScrimPlayerList') {
+	else if (parts[0] === '!clearList') {
 
 		if (message.member.hasPermission("BAN_MEMBERS")) {
+            scrimPlayerListObject = [];
 			scrimPlayerList = `Scrim Player List: \n`;
 			message.reply(`The Scrim Player List has been cleared.`);
 		} else {
@@ -77,7 +78,7 @@ bot.on('message', (message) => {
 	}
 	// !listScrimPlayers Command. Used to make the Scrim Bot list players in discord chat.
 	// Can be used by any user with access to allowed channels.
-	else if (parts[0] === '!listScrimPlayers'){
+	else if (parts[0] === '!list'){
 		let scrimPlayerList = 'Scrim Player List: \n';
 		scrimPlayerListObject.forEach( e =>
 			scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
