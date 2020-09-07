@@ -14,8 +14,8 @@ bot.on('message', (message) => {
 	// !signin Command. Used to push a user's name, roles, and MMR to scrimPlayerList
 	// Can be used by any user with access to allowed channels.
 	if (parts[0] === '!signin') {
-		if(parts.length !== 4) {
-			message.reply("Your message was incorrectly formatted.\n`!signin {name} {mmr} {first_choice_role,second_choice_role,...}`");
+		if(parts.length !== 3) {
+			message.reply("Your message was incorrectly formatted.\n`!signin {first_choice_role,second_choice_role,...} {mmr}`");
 			return;
 		}
 		let roles = parts[1].toString();
@@ -24,7 +24,8 @@ bot.on('message', (message) => {
 		mmr = parseInt(mmr, 10);
 		let rolesValid = rolesValidCheck(roles, message);
 		let mmrValid = mmrValidCheck(mmr, message);
-		let username = message.member.user.tag;
+        let username = message.member.user.tag;
+        username = username.substring(0, username.indexOf('#'));
 		let isSignedUp = isSignedUpCheck(username, message);
 		if (rolesValid && mmrValid && isSignedUp) {
 			message.member.roles.add(scrimPlayer);
@@ -38,16 +39,46 @@ bot.on('message', (message) => {
 	}
 	// !clearScrimPlayerList Command. Used to set scrimPlayerList to [].
 	// Can be used only by users with the BAN_MEMBERS permission.
-	else if (parts[0] === '!clearScrimPlayerList') {
+	else if (parts[0] === '!clearList') {
 
 		if (message.member.hasPermission("BAN_MEMBERS")) {
+            scrimPlayerListObject = [];
 			scrimPlayerList = `Scrim Player List: \n`;
 			message.reply(`The Scrim Player List has been cleared.`);
-		}
+		} else {
+            message.reply(`You do not have permission to use this command.`);
+        }
+    }
+    else if (parts[0] === '!signinManual') {
+        if (message.member.hasPermission("BAN_MEMBERS")) {
+            if(parts.length !== 4) {
+                message.reply("Your message was incorrectly formatted.\n`!signinManual {name} {first_choice_role,second_choice_role,...} {mmr}`");
+                return;
+            }
+            let roles = parts[2].toString();
+            roles = roles.split(',');
+            let mmr = parts[3];
+            mmr = parseInt(mmr, 10);
+            let rolesValid = rolesValidCheck(roles, message);
+            let mmrValid = mmrValidCheck(mmr, message);
+            let username = parts[1];
+            let isSignedUp = isSignedUpCheck(username, message);
+            if (rolesValid && mmrValid && isSignedUp) {
+                message.member.roles.add(scrimPlayer);
+                scrimPlayerListObject.push({Name: username, Roles: roles, MMR: mmr});
+                let scrimPlayerList = 'Scrim Player List: \n';
+                scrimPlayerListObject.forEach( e =>
+                    scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
+                );
+                message.reply(scrimPlayerList);
+            }
+		} else {
+            message.reply(`You do not have permission to use this command.`);
+        }
 	}
 	// !listScrimPlayers Command. Used to make the Scrim Bot list players in discord chat.
 	// Can be used by any user with access to allowed channels.
-	else if (parts[0] === '!listScrimPlayers'){
+	else if (parts[0] === '!list'){
 		let scrimPlayerList = 'Scrim Player List: \n';
 		scrimPlayerList += prettyPrintTable([['Name', 'Roles', 'MMR'], ...scrimPlayerListObject.map(x => [x.Name, x.roles, x.MMR])])
 		// scrimPlayerListObject.forEach( e =>
