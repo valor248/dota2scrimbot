@@ -134,6 +134,54 @@ function isSignedUpCheck(username, message) {
 	return true;
 }
 
+/**
+ * gets a pretty ascii table
+ * @param {string[][]} table 
+ */
+function prettyPrintTable(table, columnDelimeter = '   ')
+{
+	const maxLength = table[0].map(x => x.length);
+
+	for(let i = table.length - 1; i >= 1; i--) {
+		const current = table[i];
+		for(let j = current.length - 1; j >= 0; j--) {
+			if(maxLength[j] === undefined || current[j] > maxLength[j]) {
+				maxLength[j] = current[j];
+			}
+		}
+	}
+
+	const paddedTable = table.map(x => x.map((s, i) => s.padEnd(maxLength[i])));
+
+	/**
+	 * 
+	 * @param {number} row 
+	 * @param {number} col 
+	 * @returns {string}
+	 */
+	function getString(row, col){
+		return paddedTable[row][col] || ''.padStart(maxLength[col]);
+	}
+
+
+	let outputString = getString(0, 0);
+	for(let i = 1; i < paddedTable[0].length; i++) {
+		outputString += columnDelimeter + getString(0, i);
+	}
+	outputString += '\n';
+	outputString += ''.padStart(maxLength.reduce((a,b)=> a + b) + columnDelimeter.length * (maxLength.length - 1), '-');
+	for(let i = 1; i < table.length; i++) {
+		outputString += '\n';
+		outputString += getString(i, 0);
+		for(let j = 1; j < table[i].length; j++) {
+			outputString += columnDelimeter + getString(i , j);
+		}
+	}
+
+	return outputString;
+}
+
+
 /*const exampleEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Scrim Player List')
