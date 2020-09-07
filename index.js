@@ -1,6 +1,6 @@
 require('dotenv').config(); 
-const Discord = require("discord.js");
-const client = new Discord.Client();
+import { Client } from "discord.js";
+const client = new Client();
 let Tokens;
 try{
 	Tokens = require("./TOKENS.json");
@@ -8,7 +8,7 @@ try{
 
 const scrimPlayer = '749740102569295902';
 
-const bot = new Discord.Client();
+const bot = new Client();
 
 let scrimPlayerListObject = [];
 
@@ -84,7 +84,7 @@ bot.on('message', (message) => {
 	// Can be used by any user with access to allowed channels.
 	else if (parts[0] === '!list'){
 		let scrimPlayerList = 'Scrim Player List: \n';
-		scrimPlayerList += prettyPrintTable([['Name', 'Roles', 'MMR'], ...scrimPlayerListObject.map(x => [x.Name, x.roles, x.MMR])])
+		scrimPlayerList += prettyPrintTable([['Name', 'Roles', 'MMR'], ...scrimPlayerListObject.map(x => [x.Name, x.roles.map(x => x.toString()).reduce((a,b) => a + ',' + b), x.MMR.toString()])]);
 		// scrimPlayerListObject.forEach( e =>
 		// 	scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
 		// );
