@@ -49,11 +49,12 @@ bot.on('message', (message) => {
 	// Can be used by any user with access to allowed channels.
 	else if (parts[0] === '!listScrimPlayers'){
 		let scrimPlayerList = 'Scrim Player List: \n';
-		scrimPlayerListObject.forEach( e =>
-			scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
-		);
+		scrimPlayerList += prettyPrintTable([['Name', 'Roles', 'MMR'], ...scrimPlayerListObject.map(x => [x.Name, x.roles, x.MMR])])
+		// scrimPlayerListObject.forEach( e =>
+		// 	scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
+		// );
 		//scrimPlayerList = scrimPlayerList.concat(`${username}:\t\tRoles: ${roles}\t\tMMR: ${mmr}\n`)
-		message.reply(`${scrimPlayerList}`)
+		message.reply(scrimPlayerList);
 	}
 	// !signout Command. Used to make the Scrim Bot sign a player out.
 	// Can be used by any user with access to allowed channels.
@@ -115,11 +116,13 @@ function prettyPrintTable(table, columnDelimeter = '   ')
 	for(let i = table.length - 1; i >= 1; i--) {
 		const current = table[i];
 		for(let j = current.length - 1; j >= 0; j--) {
-			if(maxLength[j] === undefined || current[j] > maxLength[j]) {
-				maxLength[j] = current[j];
+			if(maxLength[j] === undefined || current[j].length > maxLength[j]) {
+				maxLength[j] = current[j].length;
 			}
 		}
 	}
+
+	console.log(maxLength);
 
 	const paddedTable = table.map(x => x.map((s, i) => s.padEnd(maxLength[i])));
 
@@ -150,8 +153,6 @@ function prettyPrintTable(table, columnDelimeter = '   ')
 
 	return '```' + outputString + '```';
 }
-
-
 /*const exampleEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Scrim Player List')
