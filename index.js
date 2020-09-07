@@ -1,6 +1,10 @@
 require('dotenv').config(); 
 const Discord = require("discord.js");
 const client = new Discord.Client();
+let Tokens;
+try{
+	Tokens = require("./TOKENS.json");
+}catch(e){}
 
 const scrimPlayer = '749740102569295902';
 
@@ -101,7 +105,7 @@ bot.on('message', (message) => {
 	}
 });
 //Bot Login, to replace login key visit discordapp.com developer page.
-bot.login(process.env.DISCORD_TOKEN);
+bot.login(Tokens ? Tokens.DISCORD : process.env.DISCORD_TOKEN);
 
 
 function rolesValidCheck(rolesArray, message) {
