@@ -84,7 +84,7 @@ bot.on('message', (message) => {
 	// Can be used by any user with access to allowed channels.
 	else if (parts[0] === '!list'){
 		let scrimPlayerList = 'Scrim Player List: \n';
-		scrimPlayerList += prettyPrintTable([['Name', 'Roles', 'MMR'], ...scrimPlayerListObject.map(x => [x.Name, x.roles.map(x => x.toString()).reduce((a,b) => a + ',' + b), x.MMR.toString()])]);
+		scrimPlayerList += prettyPrintTable([['Name', 'Roles', 'MMR'], ...scrimPlayerListObject.map(x => [x.Name, x.Roles.map(x => x.toString()).reduce((a,b) => a + ',' + b), x.MMR.toString()])]);
 		// scrimPlayerListObject.forEach( e =>
 		// 	scrimPlayerList = scrimPlayerList.concat(`${e.Name}:\t\t\t\tRoles: ${e.Roles}\t\t\t\tMMR: ${e.MMR}\n`)
 		// );
